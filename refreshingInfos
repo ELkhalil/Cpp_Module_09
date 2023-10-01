@@ -1,0 +1,95 @@
+        STL
+       -----
+STL -> Standard Template Library
+Container   Itertator   Algorithm
+
+Everything is a template a type to be decided later...
+once u init something from STL you can use it with any type
+u want... (This is why u saw the template in the title)
+
+SUMMURY:
+    -> We as developer control the datatype of this containers
+
+            SEQUENCE CONTAINER :
+            ---------------------
+1- Vector
+----------
+issue : Expensive Reallocation
+        Requires Contiguous Memory
+    -> in memory in a sequence way one beside another like an array...
+another example other than Array:
+first as u know array is a fixed size container if we want to add an element we can't...
+for this issue we need a dynamic array witch is a vector:  vector<int> name;
+-> Vector:
+    - we can change the size depends on it's elements
+    BUT:
+        Vectors recreate a new array for that and allocate new memory for it.
+    /*
+        std::vector<int> vec(5);
+        if we construct it with the size it will create N elements
+        and it will init them to 0
+
+        std::vector<int> vec(5, 100);
+        if we do this we ovveride the default 0 init with 100
+    */
+
+2- Deque
+----------
+    -> it is better than the vector only because we can add elements from two   directions and not only one.
+    i mean we have: 
+        push_back(); | push_front();
+    has the same functions as the vector.
+
+3- List
+---------
+    -> it is a doubly linked list.
+    -> very fast insertion and ecrase of elements
+
+4- Forward List
+----------------
+    -> same as list but builded in a different manner 
+        based on a singly linked list to save memory more.
+    there is some new function in the cpp reference website...
+5- Pair
+---------
+    -> Simple Container to hold two data types
+    it holds exactly two elements or objects
+
+            Associative Container 
+            ---------------------
+6- Set
+-------
+        -> it's elements is sorted
+        -> Unique keys 
+        -> very fast Insertion / Remove (it is stored as a tree) -> Red Blac Tree
+
+    /*
+        The main difference between associative containers and sequence containers in C++ is how they organize and access elements:
+
+        1. **Associative Containers**:
+        - These containers organize elements based on their keys or values.
+        - They provide efficient lookup and retrieval of elements using keys.
+        - Examples include `std::map`, `std::set`, and `std::unordered_map`.
+
+        2. **Sequence Containers**:
+        - These containers maintain the order of elements as they are inserted.
+        - Elements can be accessed by their position or index.
+        - Examples include `std::vector`, `std::list`, and `std::deque`.
+
+            In summary, associative containers focus on efficient key-based access and organization, while sequence containers maintain the order of elements and allow access by position.
+    */
+    -> keys : - we can't update values.
+              - We can't access randomly.
+    NP Multiset is the same as the set but approve duplicate values
+
+7- Map
+--------
+    -> when for example we have two sequence arrays and we want to link them 
+    it is stored as a tree like any other associative container
+    every element is |Key && Value|
+
+    -> Always Sorted based on the Key.
+    -> Unique keys. if not use (multimap)
+
+    
+
