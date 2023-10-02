@@ -6,7 +6,7 @@
 /*   By: aelkhali <aelkhali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 13:30:19 by aelkhali          #+#    #+#             */
-/*   Updated: 2023/10/02 11:44:13 by aelkhali         ###   ########.fr       */
+/*   Updated: 2023/10/02 16:57:12 by aelkhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,14 @@ void    BitcoinExchange::executeInputFileData( void )
     if (line != "date | value")
         _displayError("invalid info line in input file.");
     while (std::getline(inputFile, line))
+    {
+        if (line.empty() || line[0] == ' ' || line[0] == '\t')
+        {
+            std::cerr << "Error: empty line" << std::endl;
+            continue;
+        }
         _parseLine(line);
+    }
     inputFile.close();
 }
 void    BitcoinExchange::_parseLine( std::string const& line)
@@ -134,8 +141,9 @@ void    BitcoinExchange::_parseLine( std::string const& line)
     std::string date;
     std::string delim;
     std::string value;
+    std::string nothing;
 
-    ss >> date >> delim >> value;
+    ss >> date >> delim >> value >> nothing;
 
     /*  Extracting the value if any */
     std::istringstream iss(value);
@@ -143,7 +151,9 @@ void    BitcoinExchange::_parseLine( std::string const& line)
     iss >> numValue;
 
     /*  parse date */
-    if (date.empty() || !_isValidDateFormat(date))
+    if (!nothing.empty())
+        std::cerr << "Error: bad input line => " << value << std::endl;
+    else if (date.empty() || !_isValidDateFormat(date))
         std::cerr << "Error: bad input => " << date << std::endl;
     /*  parse delimiter */
     else if (delim.empty() || delim != "|")
@@ -187,19 +197,25 @@ bool    BitcoinExchange::_isValidDateFormat( std::string const& date)
 
 void    BitcoinExchange::_calculateAndDisplayBtcPrice( std::string const& date, double value)
 {
-    bool    isFound = false;
-    std::map<std::string, double>::iterator it = _BitcoinPrices.begin();
-    for (; it != _BitcoinPrices.end(); it++)
+    std::map<std::string, double>::iterator it = _BitcoinPrices.lower_bound(date);
+
+    if (it == _BitcoinPrices.begin() || (it != _BitcoinPrices.end() && it->first != date))
     {
-        if (it->first == date)
-            std::cout << date << " => " << value << " = " << value * it->second << std::endl;
+        if (it == _BitcoinPrices.begin())
+            std::cerr << "Error: too old date => " << date << std::endl;
         else
-            isFound = true;
+        {
+            --it;
+            std::cout << date << " => " << value << " = " << (it->second * value) << std::endl;
+        }
     }
-    if (isFound)
+    else if (it == _BitcoinPrices.end())
     {
-        std::cout << "not available" << std::endl;
+        it--;
+        std::cout << date << " => " << value << " = " << (it->second * value) << std::endl;
     }
+    else
+        std::cout << date << " => " << value << " = " << (it->second * value) << std::endl;
 }
 
 /*  Error Display + Exit the program    */

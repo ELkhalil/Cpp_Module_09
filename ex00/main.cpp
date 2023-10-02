@@ -6,7 +6,7 @@
 /*   By: aelkhali <aelkhali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 15:59:45 by aelkhali          #+#    #+#             */
-/*   Updated: 2023/10/02 11:31:58 by aelkhali         ###   ########.fr       */
+/*   Updated: 2023/10/02 16:54:46 by aelkhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int main( int ac, char *av[] )
     
     std::string pathToInput = av[1];
     std::string pathToCsvData = "data.csv";
-    
+
     BitcoinExchange btc(pathToInput, pathToCsvData);
 
     /*  Check ane verify CSV data */

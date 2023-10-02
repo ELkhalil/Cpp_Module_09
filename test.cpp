@@ -100,7 +100,8 @@ double _calculateBtcPrice(std::string date, double price) {
     std::map<std::string, double>::iterator it = _BitcoinPrices.lower_bound(date);
 
     // If the iterator points to the beginning, it means there's no past date in the map
-    if (it == _BitcoinPrices.begin()) {
+    if (it == _BitcoinPrices.begin())
+    {
         // Handle the case when there's no past date
         std::cerr << "Warning: No past date found in the database. Using the oldest available date." << std::endl;
         return price * _BitcoinPrices.begin()->second; // Use the earliest date's Bitcoin value
