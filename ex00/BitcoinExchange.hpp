@@ -6,7 +6,7 @@
 /*   By: aelkhali <aelkhali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 13:29:10 by aelkhali          #+#    #+#             */
-/*   Updated: 2023/10/01 20:58:47 by aelkhali         ###   ########.fr       */
+/*   Updated: 2023/10/02 11:03:10 by aelkhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 #define BITCOINEXCHANGE_HPP
 
 #include <iostream>
-#include <map>
+#include <string>
 #include <sstream>
 #include <fstream>
 #include <unistd.h>
+#include <map>
 #include <limits>
 #include <iomanip>
 
@@ -29,9 +30,12 @@ public:
     BitcoinExchange     ( BitcoinExchange const& );
     ~BitcoinExchange    ( void );
     BitcoinExchange&    operator=( BitcoinExchange const& );
-    
+
+    /*  main Exec Method    */    
+    void                executeInputFileData( void );
+
     /*  Public Helper Functions */
-    void                _dispBitcoinPricesData( void );
+    void                dispBitcoinPricesData( void );
 private:
     BitcoinExchange ( void );
     std::string                      _inputFile;
@@ -40,12 +44,11 @@ private:
 
     /*  Helper Private Functions    */
     void                _setupBitcoinPricesData( void );
-    void                _setupInputFileData( void );
     double              _stringToDouble( std::string const& );
-    int                 _stringToInt( std::string const& );
     void                _displayError( std::string );
     void                _parseLine( std::string const& );
     bool                _isValidDateFormat( std::string const& date);
+    void                _calculateAndDisplayBtcPrice (std::string const&, double );
 };
 
 #endif
