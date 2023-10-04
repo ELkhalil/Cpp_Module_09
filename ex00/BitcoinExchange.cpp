@@ -6,7 +6,7 @@
 /*   By: aelkhali <aelkhali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 13:30:19 by aelkhali          #+#    #+#             */
-/*   Updated: 2023/10/02 16:57:12 by aelkhali         ###   ########.fr       */
+/*   Updated: 2023/10/04 10:45:19 by aelkhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,8 +172,6 @@ void    BitcoinExchange::_parseLine( std::string const& line)
     else 
         _calculateAndDisplayBtcPrice(date, numValue);
 }
-
-/*  Ceck if date have valid digits  */
 bool    BitcoinExchange::_isValidDateFormat( std::string const& date)
 {
     std::istringstream  iss(date);
@@ -194,7 +192,6 @@ bool    BitcoinExchange::_isValidDateFormat( std::string const& date)
         return false;
     return true;
 }
-
 void    BitcoinExchange::_calculateAndDisplayBtcPrice( std::string const& date, double value)
 {
     std::map<std::string, double>::iterator it = _BitcoinPrices.lower_bound(date);

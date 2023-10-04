@@ -6,12 +6,12 @@
 #    By: aelkhali <aelkhali@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/30 15:37:59 by aelkhali          #+#    #+#              #
-#    Updated: 2023/10/02 17:28:57 by aelkhali         ###   ########.fr        #
+#    Updated: 2023/10/04 13:14:39 by aelkhali         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #Output Program Name
-NAME = btc
+NAME = PmergeMe
 
 # Colors :
 GREEN = \033[0;32m
@@ -26,7 +26,7 @@ FLAGS =	-Wall -Wextra -Werror -std=c++98
 RM = rm -rf
 
 # loading source files :
-SRCS = main.cpp BitcoinExchange.cpp
+SRCS = main.cpp PmergeMe.cpp
 
 all : $(NAME)
 	@echo "You Can Use $(GREEN)*** $(NAME) ***$(STOP)"
