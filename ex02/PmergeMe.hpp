@@ -6,7 +6,7 @@
 /*   By: aelkhali <aelkhali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:28:23 by aelkhali          #+#    #+#             */
-/*   Updated: 2023/10/04 14:49:33 by aelkhali         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:53:27 by aelkhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,37 @@
 #include <unistd.h>
 #include <sstream>
 #include <vector>
+#include <list>
 
 class   PmergeMe
 {
 public:
-    PmergeMe    ( std::string const& );
+    PmergeMe    ( std::vector<int> const& );
     PmergeMe    ( PmergeMe const& );
     ~PmergeMe   ( void );
 
-    PmergeMe&   operator=( PmergeMe const& );
-    // void        mergeInsertSort ( void );
+    PmergeMe&   operator=( PmergeMe const& );    
+    void        sortSequence( void );
+
 private:
-    PmergeMe    ( void );
-    std::string _intInputSequence;
-    void        _error();
+    PmergeMe            ( void );
+    /*  Private Attributes  */
+    std::vector<int>    _inputData;
+    std::vector<int>    _sortedVector;
+    std::list<int>      _sortedList;
+
+    /*  Private Methods */
+    void                _error();
+    void                _mergeInsertSort(std::vector<int>& );
+    /*  Template Function to Print Container Data    */
+    template <typename  T>
+    void        _printContainerData( T& container )
+    {
+        typename T::iterator it = container.begin();
+        for(; it != container.end(); it++)
+            std::cout << *it << " ";
+        std::cout << std::endl;
+    }
 };
 
 #endif
