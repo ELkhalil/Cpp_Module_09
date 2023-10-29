@@ -6,7 +6,7 @@
 /*   By: aelkhali <aelkhali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:28:20 by aelkhali          #+#    #+#             */
-/*   Updated: 2023/10/05 11:53:52 by aelkhali         ###   ########.fr       */
+/*   Updated: 2023/10/29 13:47:43 by aelkhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    _errorExit( void )
     _exit(1);
 }
 
-int _stringToInt( std::string const& input)
+int     _stringToInt( std::string const& input)
 {
     std::istringstream iss(input);
     long value;
