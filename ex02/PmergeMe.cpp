@@ -41,6 +41,8 @@ PmergeMe&   PmergeMe::operator=( PmergeMe const& other )
 /*  PmeregeMe Methods   */
 void    PmergeMe::execute( void )
 {
+    double time_taken_vector;
+    double time_taken_list;
 
     std::cout << "Before:   ";
     _printContainerData(_inputData);
@@ -50,9 +52,8 @@ void    PmergeMe::execute( void )
         start = clock();
         _executeVectorSort();
         end = clock();
-        double time_taken = double(end - start);
-        std::cout << "Time to process a range of " << _inputData.size() << " elements with std::[vector] : " 
-                  << time_taken << "ms" << std::endl;
+        time_taken_vector = double(end - start);
+        
     }
     /* List check time */
     {
@@ -60,14 +61,14 @@ void    PmergeMe::execute( void )
         start = clock();
         _executeListSort();
         end = clock();
-        double time_taken = double(end - start);
-        std::cout << "Time to process a range of " << _inputData.size() << " elements with std::[list] : " 
-                  << time_taken << "ms" << std::endl;
+        time_taken_list = double(end - start);
     }
     std::cout << "After:    ";
     _printContainerData(_sortedVector);
-    std::cout << "list:    ";
-    _printContainerData(_sortedList);
+    std::cout << "Time to process a range of " << _inputData.size() << " elements with std::[vector] : " 
+                  << time_taken_vector << "ms" << std::endl;
+    std::cout << "Time to process a range of " << _inputData.size() << " elements with std::[list] : " 
+                  << time_taken_list << "ms" << std::endl;
 }
 
 void    PmergeMe::_executeVectorSort( void )

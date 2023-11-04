@@ -50,9 +50,18 @@ private:
     template <typename  T>
     void        _printContainerData( T& container )
     {
+        int i = 0;
         typename T::iterator it = container.begin();
         for(; it != container.end(); it++)
+        {
             std::cout << *it << " ";
+            i++;
+            if (i >= 8)
+            {
+                std::cout << "[...]";
+                break;
+            }
+        }
         std::cout << std::endl;
     }
 };
