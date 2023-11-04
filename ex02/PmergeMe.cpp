@@ -41,19 +41,33 @@ PmergeMe&   PmergeMe::operator=( PmergeMe const& other )
 /*  PmeregeMe Methods   */
 void    PmergeMe::execute( void )
 {
+
     std::cout << "Before:   ";
     _printContainerData(_inputData);
-    std::cout << "After:   ";
+    /* vector check time    */
     {
         clock_t start, end;
         start = clock();
         _executeVectorSort();
         end = clock();
-        _printContainerData(_sortedVector);
         double time_taken = double(end - start);
-        std::cout << "Time to process a range of " << _inputData.size() << " elements with std::vector : " 
+        std::cout << "Time to process a range of " << _inputData.size() << " elements with std::[vector] : " 
                   << time_taken << "ms" << std::endl;
     }
+    /* List check time */
+    {
+        clock_t start, end;
+        start = clock();
+        _executeListSort();
+        end = clock();
+        double time_taken = double(end - start);
+        std::cout << "Time to process a range of " << _inputData.size() << " elements with std::[list] : " 
+                  << time_taken << "ms" << std::endl;
+    }
+    std::cout << "After:    ";
+    _printContainerData(_sortedVector);
+    std::cout << "list:    ";
+    _printContainerData(_sortedList);
 }
 
 void    PmergeMe::_executeVectorSort( void )
@@ -105,64 +119,62 @@ void    PmergeMe::_executeVectorSort( void )
     _sortedVector = S;
 }
 
-// void    PmergeMe::_executeListSort( void )
-// {
-//     std::list <unsigned int>    initialList;
-//     int unpaired_element = -1;
-//     std::pair<unsigned int, unsigned int> tmpPair;
-//     std::list<unsigned int > X;
-//     std::list<unsigned int > S;
+void    PmergeMe::_executeListSort( void )
+{
+    std::list <unsigned int>    initialList;
+    int unpaired_element = -1;
+    std::pair<unsigned int, unsigned int> tmpPair;
+    std::list<unsigned int > X;
+    std::list<unsigned int > S;
 
-//     /* copy data to the list */
-//     for (size_t i = 0; i < _inputData.size(); i++)
-//         initialList.push_back(_inputData[i]);
-//     if (_inputData.size() <= 1)
-//     {
-//         _sortedList = initialList;
-//         return ;
-//     }
-//     if (_inputData.size() % 2 != 0)
-//     {
-//         unpaired_element = initialList.back();
-//         initialList.pop_back();
-//     }
-//     {
-//         std::list<unsigned int>::iterator it = initialList.begin();
-//         std::list<unsigned int>::iterator next_it = it;
-//         for(; it != initialList.end(); it++)
-//         {
-//             next_it++;
-//             if (next_it != initialList.end())
-//             {
-//                 tmpPair = std::make_pair(*it, *next_it);
-//                 if (tmpPair.first > tmpPair.second)
-//                     std::swap(tmpPair.first, tmpPair.second);
-//                 X.push_back(tmpPair.first);
-//                 S.push_back(tmpPair.second);
-//             }
-//         }
-//     }
+    /* copy data to the list */
+    for (size_t i = 0; i < _inputData.size(); i++)
+        initialList.push_back(_inputData[i]);
+    if (_inputData.size() <= 1)
+    {
+        _sortedList = initialList;
+        return ;
+    }
+    if (_inputData.size() % 2 != 0)
+    {
+        unpaired_element = initialList.back();
+        initialList.pop_back();
+    }
+    {
+        std::list<unsigned int>::iterator it = initialList.begin();
+        std::list<unsigned int>::iterator next_it = it;
+        for(; it != initialList.end(); it++)
+        {
+            ++next_it;
+            if (next_it != initialList.end())
+            {
+                tmpPair = std::make_pair(*it, *next_it);
+                if (tmpPair.first > tmpPair.second)
+                    std::swap(tmpPair.first, tmpPair.second);
+                X.push_back(tmpPair.first);
+                S.push_back(tmpPair.second);
+            }
+            it = next_it;
+            ++next_it;
+        }
+    }
+    S.sort();
+    {
+        std::list<unsigned int>::iterator it = X.begin();
+        for( ; it != X.end(); it++)
+        {
+            std::list<unsigned int>::iterator it_pos = std::lower_bound(S.begin(), S.end(), *it);
+            S.insert(it_pos, *it);
+        }
+    }
 
-//     std::list<unsigned int>::iterator it_begin = S.begin();
-//     std::list<unsigned int>::iterator it_end = S.end();
-//     std::sort(it_begin, it_end);
-
-//     {
-//         std::list<unsigned int>::iterator it = X.begin();
-//         for( ; it != X.end(); it++)
-//         {
-//             std::list<unsigned int>::iterator it_pos = std::lower_bound(S.begin(), S.end(), *it);
-//             S.insert(it_pos, *it);
-//         }
-//     }
-
-//     if (unpaired_element != -1)
-//     {
-//         std::list<unsigned int>::iterator it_pos = std::lower_bound(S.begin(), S.end(), unpaired_element);
-//         S.insert(it_pos, unpaired_element);
-//     }
-//     _sortedList = S;
-// }
+    if (unpaired_element != -1)
+    {
+        std::list<unsigned int>::iterator it_pos = std::lower_bound(S.begin(), S.end(), unpaired_element);
+        S.insert(it_pos, unpaired_element);
+    }
+    _sortedList = S;
+}
 
 void    PmergeMe::_error()
 {
