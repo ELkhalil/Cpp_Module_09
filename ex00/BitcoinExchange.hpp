@@ -31,7 +31,7 @@ public:
     ~BitcoinExchange    ( void );
     BitcoinExchange&    operator=( BitcoinExchange const& );
 
-    /*  main Exec Method    */    
+    /*  main Exec Method    */
     void                executeInputFileData( void );
 
     /*  Public Helper Functions */

@@ -1,20 +1,24 @@
 #include <iostream>
 #include <vector>
 #include <utility>
-
+#include <unistd.h>
+#include <sstream>
+#include <list>
+#include <limits>
 
 // do not forget the idea of the simulation
 
 
-std::vector<unsigned int>    mergeInsertionSort( std::vector<int>& original )
+std::vector<unsigned int>    mergeInsertionSort( std::vector< unsigned int> const& input )
 {
+    std::vector<unsigned int> original = input;
     unsigned int unpaired_element = -1;
     std::vector<unsigned int > X;
     std::vector<unsigned int > S;
-    std::pair<int, int> tmpPair;
+    std::pair<unsigned int, unsigned int> tmpPair;
 
     if (original.size() <= 1)
-        return ;
+        return original;
     if (original.size() % 2 != 0)
     {
         unpaired_element = original.back();
@@ -54,34 +58,61 @@ std::vector<unsigned int>    mergeInsertionSort( std::vector<int>& original )
         std::vector<unsigned int>::iterator it_pos = std::lower_bound(S.begin(), S.end(), unpaired_element);
         S.insert(it_pos, unpaired_element);
     }
-
     return S;
 }
 
 
 
-int main( void )
+void    _errorExit( void )
 {
-    /*  Init testing array  */
-    std::vector<int> test;
-    test.push_back(3);
-    test.push_back(5);
-    test.push_back(9);
-    test.push_back(7);
-    test.push_back(4);
+    std::cout << "Error" << std::endl;\
+    _exit(1);
+}
 
+unsigned int     _stringToInt( std::string const& input)
+{
+    std::istringstream iss(input);
+    unsigned long value;
 
-    /*  making the sort */
-    mergeInsertionSort(test);
-    
+    iss >> value;
 
-    // /* Printing the array content   */
-    // std::vector<int>::iterator it = test.begin();
-    // for (; it != test.end(); it++)
-    // {
-    //     std::cout << *it << " ";
-    // }
-    // std::cout  << std::endl;
+    if (iss.fail() || !iss.eof() || value < 0)
+        _errorExit();
+    if (value > std::numeric_limits<unsigned int>::max() || value < std::numeric_limits<unsigned int>::min())
+        _errorExit();
+    return static_cast<unsigned int>(value);
+}
+
+int main(int ac, char *av[])
+{
+    if (ac < 2)
+    {
+        std::cout << "Error" << std::endl;
+        return 1;
+    }
+    std::vector<unsigned int>    inputSequence;
+    for (int i = 1; i < ac; i++)
+    {
+        std::string input = av[i];
+        inputSequence.push_back(_stringToInt(input));
+    }
+    std::cout << "before:   ";
+    for (size_t i = 0; i < inputSequence.size(); ++i)
+    {
+        std::cout << inputSequence[i] << " ";
+    }
+
+    std::vector<unsigned int> newVec = mergeInsertionSort( inputSequence );
+
+    std::cout << std::endl;
+
+    std::cout << "After:    ";
+    for (size_t i = 0; i < newVec.size(); ++i)
+    {
+        std::cout << newVec[i] << " ";
+    }
+    std::cout << "\n";
+
 
     return 0;
 }

@@ -19,18 +19,18 @@ void    _errorExit( void )
     _exit(1);
 }
 
-int     _stringToInt( std::string const& input)
+unsigned int     _stringToInt( std::string const& input)
 {
     std::istringstream iss(input);
-    long value;
+    unsigned long value;
 
     iss >> value;
 
     if (iss.fail() || !iss.eof() || value < 0)
         _errorExit();
-    if (value > std::numeric_limits<int>::max() || value < std::numeric_limits<int>::min())
+    if (value > std::numeric_limits<unsigned int>::max() || value < std::numeric_limits<unsigned int>::min())
         _errorExit();
-    return static_cast<int>(value);
+    return static_cast<unsigned int>(value);
 }
 
 int main(int ac, char *av[])
@@ -40,13 +40,13 @@ int main(int ac, char *av[])
         std::cout << "Error" << std::endl;
         return 1;
     }
-    std::vector<int>    inputSequence;
+    std::vector<unsigned int>    inputSequence;
     for (int i = 1; i < ac; i++)
     {
         std::string input = av[i];
         inputSequence.push_back(_stringToInt(input));
     }
     PmergeMe    mergeSort(inputSequence);
-    mergeSort.sortSequence();
+    mergeSort.execute();
     return 0;
 }

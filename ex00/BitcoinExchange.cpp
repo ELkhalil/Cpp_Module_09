@@ -14,7 +14,6 @@
 
 /*  BitcoinExchange */
 BitcoinExchange::BitcoinExchange    ( void ) {}
-
 BitcoinExchange::BitcoinExchange    ( std::string const& inputFilename, std::string const& pathTodata ) : _inputFile(inputFilename), _dataFilePath(pathTodata) 
 {
     _setupBitcoinPricesData();
@@ -222,4 +221,3 @@ void    BitcoinExchange::_displayError(std::string error)
         std::cerr << "Error: " << error << std::endl;
     _exit(1);
 }
-

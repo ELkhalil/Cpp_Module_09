@@ -3,7 +3,8 @@
 #include <algorithm>
 
 // Custom comparator to sort pairs by the second element in descending order
-struct PairComparator {
+struct PairComparator
+{
     bool operator()(const std::pair<int, int>& a, const std::pair<int, int>& b) {
         return a.second > b.second;
     }
@@ -19,7 +20,8 @@ void insertElement(std::vector<int>& sequence, int element)
 }
 
 // Step 1: Split the input elements into pairs
-std::vector<std::pair<int, int> > splitIntoPairs(const std::vector<int>& elements) {
+std::vector<std::pair<int, int> > splitIntoPairs(const std::vector<int>& elements)
+{
     std::vector<std::pair<int, int> > pairs;
     for (size_t i = 0; i < elements.size(); i += 2) {
         // Create pairs with two elements, or one element with -1 to indicate unpaired
@@ -33,11 +35,14 @@ std::vector<std::pair<int, int> > splitIntoPairs(const std::vector<int>& element
 }
 
 // Step 2: Sort the pairs and ensure the first element is smaller
-std::vector<std::pair<int, int> > sortPairs(const std::vector<std::pair<int, int> >& pairs) {
+std::vector<std::pair<int, int> > sortPairs(const std::vector<std::pair<int, int> >& pairs)
+{
+
     std::vector<std::pair<int, int> > sortedPairs = pairs;
-    for (size_t i = 0; i < sortedPairs.size(); ++i) {
-        if (sortedPairs[i].second != -1 && sortedPairs[i].first > sortedPairs[i].second) {
-            // Swap elements to ensure the first element is smaller
+    for (size_t i = 0; i < sortedPairs.size(); ++i)
+    {
+        if (sortedPairs[i].second != -1 && sortedPairs[i].first > sortedPairs[i].second) 
+        {
             int temp = sortedPairs[i].first;
             sortedPairs[i].first = sortedPairs[i].second;
             sortedPairs[i].second = temp;
@@ -47,20 +52,24 @@ std::vector<std::pair<int, int> > sortPairs(const std::vector<std::pair<int, int
 }
 
 // Step 3: Recursively sort the larger elements from each pair
-void sortByLargerValue(std::vector<std::pair<int, int> >& sortedPairs) {
+void sortByLargerValue(std::vector<std::pair<int, int> >& sortedPairs)
+{
     // Use std::sort to sort pairs by the second element (larger)
     std::sort(sortedPairs.begin(), sortedPairs.end(), PairComparator());
 }
 
 // Step 4 and 5: Merge and insertion sort
-std::vector<int> mergeInsertionSort(const std::vector<int>& elements) {
+std::vector<int> mergeInsertionSort(const std::vector<int>& elements)
+{
     std::vector<std::pair<int, int> > pairs = splitIntoPairs(elements);
     std::vector<std::pair<int, int> > sortedPairs = sortPairs(pairs);
+    
     sortByLargerValue(sortedPairs);
+    
     std::vector<int> sortedSequence;
     
-    // Recursively sort the larger elements from each pair
-    for (size_t i = 0; i < sortedPairs.size(); ++i) {
+    for (size_t i = 0; i < sortedPairs.size(); ++i)
+    {
         insertElement(sortedSequence, sortedPairs[i].first);
         if (sortedPairs[i].second != -1) {
             insertElement(sortedSequence, sortedPairs[i].second);
@@ -70,9 +79,10 @@ std::vector<int> mergeInsertionSort(const std::vector<int>& elements) {
     return sortedSequence;
 }
 
-int main() {
-    int unsortedArr[] = {8, 9, 2, 3, 7, 5, 11, 13};
-    std::vector<int> unsorted(unsortedArr, unsortedArr + sizeof(unsortedArr) / sizeof(int));
+int main()
+{
+    int                     unsortedArr[] = {8, 9, 2, 3, 7, 5, 11, 13};
+    std::vector<int>        unsorted(unsortedArr, unsortedArr + sizeof(unsortedArr) / sizeof(int));
     
     // Sort the unsorted array using Merge-Insertion Sort
     std::vector<int> sorted = mergeInsertionSort(unsorted);
@@ -89,6 +99,5 @@ int main() {
         std::cout << sorted[i] << " ";
     }
     std::cout << "\n";
-    
     return 0;
 }
