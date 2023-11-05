@@ -19,6 +19,7 @@
 #include <vector>
 #include <list>
 #include <time.h>
+#include <sys/time.h>
 
 class   PmergeMe
 {
@@ -39,7 +40,6 @@ private:
 
     /*  Private Methods */
     void    _error();
-    void    _mergeInsertSort(std::vector<unsigned int>& );
 
     /*  Merge Insertion Sort For vector */
     void    _executeVectorSort( void );
@@ -54,13 +54,13 @@ private:
         typename T::iterator it = container.begin();
         for(; it != container.end(); it++)
         {
-            std::cout << *it << " ";
             i++;
-            if (i >= 8)
+            if (i > 8)
             {
                 std::cout << "[...]";
                 break;
             }
+            std::cout << *it << " ";
         }
         std::cout << std::endl;
     }

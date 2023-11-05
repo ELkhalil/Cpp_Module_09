@@ -23,7 +23,6 @@ int main( int ac, char *av[] )
 {
     if (ac != 2)
         return displayError("could not open file."), 1;
-    
     std::string pathToInput = av[1];
     std::string pathToCsvData = "data.csv";
 

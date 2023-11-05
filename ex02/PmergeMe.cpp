@@ -39,42 +39,63 @@ PmergeMe&   PmergeMe::operator=( PmergeMe const& other )
 }
 
 /*  PmeregeMe Methods   */
-void    PmergeMe::execute( void )
+
+void PmergeMe::execute()
 {
     double time_taken_vector;
     double time_taken_list;
 
     std::cout << "Before:   ";
     _printContainerData(_inputData);
-    /* vector check time    */
+    /*  Vector  */
     {
-        clock_t start, end;
-        start = clock();
+        struct timeval start, end;
+        if (gettimeofday(&start, NULL) < 0)
+        {
+            std::cerr << "Error: gettimeofday() failed" << std::endl;
+            _exit(1);
+        }
         _executeVectorSort();
-        end = clock();
-        time_taken_vector = double(end - start);
-        
+        if (gettimeofday(&end, NULL) < 0)
+        {
+            std::cerr << "Error: gettimeofday() failed" << std::endl;
+            _exit(1);
+        }
+        time_taken_vector = (end.tv_sec - start.tv_sec) * 1000.0 + (end.tv_usec - start.tv_usec) / 1000.0;
     }
-    /* List check time */
+    /*  List  */
     {
-        clock_t start, end;
-        start = clock();
+        struct timeval start, end;
+        if (gettimeofday(&start, NULL) < 0)
+        {
+            std::cerr << "Error: gettimeofday() failed" << std::endl;
+            _exit(1);
+        }
         _executeListSort();
-        end = clock();
-        time_taken_list = double(end - start);
+        if (gettimeofday(&end, NULL) < 0)
+        {
+            std::cerr << "Error: gettimeofday() failed" << std::endl;
+            _exit(1);
+        }
+        time_taken_list = (end.tv_sec - start.tv_sec) * 1000.0 + (end.tv_usec - start.tv_usec) / 1000.0;
     }
     std::cout << "After:    ";
     _printContainerData(_sortedVector);
+    // _printContainerData(_sortedList);
     std::cout << "Time to process a range of " << _inputData.size() << " elements with std::[vector] : " 
-                  << time_taken_vector << "ms" << std::endl;
+              << time_taken_vector << "ms" << std::endl;
+    
     std::cout << "Time to process a range of " << _inputData.size() << " elements with std::[list] : " 
-                  << time_taken_list << "ms" << std::endl;
+              << time_taken_list << "ms" << std::endl;
 }
 
 void    PmergeMe::_executeVectorSort( void )
 {
     if (_inputData.size() <= 1)
+    {
+        _sortedVector = _inputData;
         return ;
+    }
     std::vector<unsigned int> initialData = _inputData;
     int unpaired_element = -1;
     std::vector<unsigned int > X;
